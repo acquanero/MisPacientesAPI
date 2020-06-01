@@ -72,4 +72,14 @@ async function deletePaciente(pacienteId){
 
 }
 
-module.exports = {getPacientes, getPaciente, pushPaciente, updatePaciente, deletePaciente};
+async function getEvoluciones(id_Paciente){
+
+    const clientmongo = await connection.getConnection();
+    const evoluciones = await clientmongo.db('MisPacientes')
+    .collection('Evoluciones')
+    .find({idPaciente:parseInt(id_Paciente)});
+
+    return evoluciones;
+}
+
+module.exports = {getPacientes, getPaciente, pushPaciente, updatePaciente, deletePaciente, getEvoluciones};

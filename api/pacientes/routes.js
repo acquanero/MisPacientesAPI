@@ -3,19 +3,19 @@ var router = express.Router();
 
 const PacientesController = require('./controller');
 
+//Obtener todos los Pacientes
 router.get('/', async function(req,res,next){
-  //res.send('Listado de medicos');
   let pacientes = await PacientesController.getPacientes();
   res.send(pacientes);
 });
 
-
+//Obtener paciente por id
 router.get('/:id', async function(req,res,next){
-  //res.send('Un inventor: ' + req.params.id);
   let paciente = await PacientesController.getPaciente(req.params.id);
   res.send(paciente);
 });
 
+//Crear paciente
 router.post('/', async function(req,res){
 
   let result = await PacientesController.pushPaciente(
@@ -40,6 +40,7 @@ router.post('/', async function(req,res){
   res.send(result);
 })
 
+//Actualizar paciente
 router.put('/:id', async function (req,res){
   
   let result = await PacientesController.updatePaciente(
@@ -65,9 +66,16 @@ router.put('/:id', async function (req,res){
 
 });
 
+//Eliminar paciente
 router.delete('/:id', async function(req,res){
   let result = await PacientesController.deletePaciente(req.params.id);
   res.send(result);
+});
+
+//Obtener evoluciones de paciente por id
+router.get('/:id_Paciente/evoluciones', async function(req,res,next){
+  let evols = await PacientesController.getEvoluciones(req.params.id_Paciente);
+  res.send(evols);
 });
 
 module.exports = router;
