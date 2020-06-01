@@ -3,9 +3,11 @@ var router = express.Router();
 
 const medicos = require('./medicos/routes');
 const pacientes = require('./pacientes/routes');
+const evoluciones = require('./evoluciones/routes');
 
 router.use("/medicos", medicos);
 router.use("/pacientes", pacientes);
+router.use("/evoluciones", evoluciones);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
