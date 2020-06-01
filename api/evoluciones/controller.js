@@ -64,4 +64,15 @@ async function deleteEvolucion(evolucionId){
 
 }
 
-module.exports = {getEvoluciones, getEvolucion, pushEvolucion, updateEvolucion, deleteEvolucion};
+async function getEvolucionesDePaciente(id_Paciente){
+
+    const clientmongo = await connection.getConnection();
+    const evoluciones = await clientmongo.db('MisPacientes')
+    .collection('Evoluciones')
+    .find({idPaciente:parseInt(id_Paciente)})
+    .toArray();
+
+    return evoluciones;
+}
+
+module.exports = {getEvoluciones, getEvolucion, pushEvolucion, updateEvolucion, deleteEvolucion, getEvolucionesDePaciente};

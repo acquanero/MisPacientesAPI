@@ -72,10 +72,4 @@ router.delete('/:id', async function(req,res){
   res.send(result);
 });
 
-//Obtener evoluciones de paciente por id
-router.get('/:id_Paciente/evoluciones', async function(req,res,next){
-  let evols = await PacientesController.getEvoluciones(req.params.id_Paciente);
-  res.send(evols);
-});
-
 module.exports = router;
