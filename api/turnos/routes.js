@@ -23,7 +23,8 @@ router.post('/', async function(req,res){
           _id: req.body._id,
           idMedico: req.body.idMedico, 
           idPaciente: req.body.idPaciente,
-          fecha: req.body.fecha,
+          fecha: new Date(req.body.fecha),
+          //new Date(“<YYYY-mm-ddTHH:MM:ss>”) formato a ingresar
           motivoConsulta: req.body.motivoConsulta
       }
   )

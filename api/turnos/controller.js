@@ -74,17 +74,21 @@ async function getTurnosDePaciente(pacienteId){
     return turnos;
 }
 
-//funcion de busqueda de turnos por fecha(dd-mm-yyyy). Todavia no logro convertir el formato para buscar en mongodb
+//funcion de busqueda de turnos por fecha(dd-mm-yyyy)
 async function getTurnosDelDia(dia){
 
     const fechaE = dia.split("-");
 
-    const fechaElegida = new Date(fechaE[2],fechaE[1],fechaE[0]);
+    let fechaInicioString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "00:00:00Z";
+    let fechaFinString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "23:59:59Z";
+
+    const fechaInicio = new Date(fechaInicioString);
+    const fechaFin = new Date(fechaFinString);
 
     const clientmongo = await connection.getConnection();
     const turnos = await clientmongo.db('MisPacientes')
     .collection('Turnos')
-    .find({fecha:fechaElegida})
+    .find({fecha:{$gte: fechaInicio, $lt: fechaFin}})
     .toArray();
 
     return turnos;
