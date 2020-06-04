@@ -18,12 +18,11 @@ router.post('/', async function(req,res){
 
   let result = await EvolucionesController.pushEvolucion(
       {
-          _id: req.body._id,
-          idMedico: req.bod.idMedico, 
-          idPaciente: req.bod.idPaciente, 
-          fecha: req.bod.fecha,
-          motivoConsulta: req.bod.motivoConsulta,
-          descripcion: req.bod.descripcion
+          idMedico: req.body.idMedico, 
+          idPaciente: req.body.idPaciente, 
+          fecha: new Date(req.body.fecha),
+          motivoConsulta: req.body.motivoConsulta,
+          descripcion: req.body.descripcion
       }
   )
 
@@ -34,14 +33,11 @@ router.put('/:id', async function (req,res){
   
   let result = await EvolucionesController.updateEvolucion(
       {
-        _id:req.body._id,
-        nombre: req.body.nombre, 
-        apellido: req.body.apellido, 
-        matricula: req.body.matricula,
-        mail: req.body.mail,
-        usuario: req.body.usuario,
-        password: req.body.password,
-        calendario: req.body.calendario
+        idMedico: req.body.idMedico, 
+        idPaciente: req.body.idPaciente, 
+        fecha: new Date(req.body.fecha),
+        motivoConsulta: req.body.motivoConsulta,
+        descripcion: req.body.descripcion
       }
   )
 

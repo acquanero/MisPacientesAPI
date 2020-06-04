@@ -18,12 +18,19 @@ router.get('/:id', async function(req,res,next){
 //Crear paciente
 router.post('/', async function(req,res){
 
+  //Convierto la fecha de string dd-mm-yyyy a formato Date de Mongo
+
+  let birthday = req.body.fechaNacimiento.split("-");
+  let fechaString = birthday[2] + "-" + birthday[1] + "-" + birthday[0] + "T" + "00:00:00Z";
+  let nacimientoDate = new Date(fechaString);
+
   let result = await PacientesController.pushPaciente(
       {
-          _id: req.body._id,
+          idPaciente: req.body.idPaciente,
+          idMedico: req.body.idMedico,
           nombre: req.body.nombre, 
           apellido: req.body.apellido,
-          fechaNacimiento: req.body.fechaNacimiento,
+          fechaNacimiento: nacimientoDate,
           obraSocial: req.body.obraSocial,
           plan: req.body.plan,
           numAfiliado: req.body.numAfiliado,
@@ -31,9 +38,7 @@ router.post('/', async function(req,res){
           antecedentes: req.body.antecedentes,
           medicacionHabitual: req.body.medicacionHabitual,
           alergias: req.body.alergias,
-          cirugias: req.body.cirugias,
-          listaEvoluciones: req.body.listaEvoluciones,
-          listaTurnos: req.body.listaTurnos
+          cirugias: req.body.cirugias
       }
   )
 
@@ -42,13 +47,19 @@ router.post('/', async function(req,res){
 
 //Actualizar paciente
 router.put('/:id', async function (req,res){
+
+  //Convierto la fecha de string dd-mm-yyyy a formato Date de Mongo
+  let birthday = req.body.fechaNacimiento.split("-");
+  let fechaString = birthday[2] + "-" + birthday[1] + "-" + birthday[0] + "T" + "00:00:00Z";
+  let nacimientoDate = new Date(fechaString);
   
   let result = await PacientesController.updatePaciente(
       {
-        _id: req.body._id,
+        idPaciente: req.body.idPaciente,
+        idMedico: req.body.idMedico,
         nombre: req.body.nombre, 
         apellido: req.body.apellido,
-        fechaNacimiento: req.body.fechaNacimiento,
+        fechaNacimiento: nacimientoDate,
         obraSocial: req.body.obraSocial,
         plan: req.body.plan,
         numAfiliado: req.body.numAfiliado,
@@ -56,9 +67,7 @@ router.put('/:id', async function (req,res){
         antecedentes: req.body.antecedentes,
         medicacionHabitual: req.body.medicacionHabitual,
         alergias: req.body.alergias,
-        cirugias: req.body.cirugias,
-        listaEvoluciones: req.body.listaEvoluciones,
-        listaTurnos: req.body.listaTurnos
+        cirugias: req.body.cirugias
       }
   )
 

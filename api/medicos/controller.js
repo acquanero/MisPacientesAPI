@@ -16,7 +16,7 @@ async function getMedico(medicoId){
     const clientmongo = await connection.getConnection();
     const medico = await clientmongo.db('MisPacientes')
     .collection('Medicos')
-    .findOne({_id:parseInt(medicoId)});
+    .findOne({idMedico:parseInt(medicoId)});
 
     return medico;
 }
@@ -34,16 +34,16 @@ async function pushMedico(medico){
 async function updateMedico(medico){
 
     const clientmongo = await connection.getConnection();
-    const query = {_id:parseInt(medico._id)};
+    const query = {idMedico:parseInt(medico.idMedico)};
     const newValues = {$set: 
         {
+            idMedico:medico.idMedico,
             nombre: medico.nombre, 
             apellido: medico.apellido, 
             matricula: medico.matricula,
             mail: medico.mail,
             usuario: medico.usuario,
-            password: medico.password,
-            calendario: medico.calendario
+            password: medico.password
         }
     };
 
@@ -60,7 +60,7 @@ async function deleteMedico(medicoId){
 
     const result = await clientmongo.db('MisPacientes')
     .collection('Medicos')
-    .deleteOne({_id:parseInt(medicoId)});
+    .deleteOne({idMedico:parseInt(medicoId)});
 
     return result;
 

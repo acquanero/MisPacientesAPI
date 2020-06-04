@@ -20,14 +20,13 @@ router.post('/', async function(req,res){
 
   let result = await MedicosController.pushMedico(
       {
-          _id:req.body._id,
+          idMedico:req.body.idMedico,
           nombre: req.body.nombre, 
           apellido: req.body.apellido, 
           matricula: req.body.matricula,
           mail: req.body.mail,
           usuario: req.body.usuario,
-          password: req.body.password,
-          calendario: req.body.calendario
+          password: req.body.password
       }
   )
 
@@ -38,14 +37,13 @@ router.put('/:id', async function (req,res){
   
   let result = await MedicosController.updateMedico(
       {
-        _id:req.body._id,
+        idMedico:req.body.idMedico,
         nombre: req.body.nombre, 
         apellido: req.body.apellido, 
         matricula: req.body.matricula,
         mail: req.body.mail,
         usuario: req.body.usuario,
-        password: req.body.password,
-        calendario: req.body.calendario
+        password: req.body.password
       }
   )
 

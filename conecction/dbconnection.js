@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+//const uri = process.env.MONGODB
 const uri = "mongodb+srv://pablo:strangedays1984@cluster0-jc2di.mongodb.net/test";
 const chalk = require('chalk');
 
