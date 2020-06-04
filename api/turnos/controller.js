@@ -74,10 +74,12 @@ async function getTurnosDePaciente(pacienteId){
     return turnos;
 }
 
-//funcion de busqueda de turnos por fecha(dd-mm-yyyy)
+//funcion de busqueda de turnos por fecha(dd-mm-yyyy), del correspondiente medico (id)
 async function getTurnosDelDia(dia){
 
     const fechaE = dia.split("-");
+
+    const medicoId = fechaE[3];
 
     let fechaInicioString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "00:00:00Z";
     let fechaFinString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "23:59:59Z";
@@ -88,7 +90,10 @@ async function getTurnosDelDia(dia){
     const clientmongo = await connection.getConnection();
     const turnos = await clientmongo.db('MisPacientes')
     .collection('Turnos')
-    .find({fecha:{$gte: fechaInicio, $lt: fechaFin}})
+    .find({
+        fecha:{$gte: fechaInicio, $lt: fechaFin},
+        idMedico:parseInt(medicoId)
+    })
     .toArray();
 
     return turnos;
