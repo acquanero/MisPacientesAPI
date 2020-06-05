@@ -55,7 +55,7 @@ router.delete('/:id', async function(req,res){
 
 //Obtener todos los turnos por id del paciente
 router.get('/paciente/:id', async function(req,res,next){
-    let turnos = await TurnosController.getTurno(req.params.id);
+    let turnos = await TurnosController.getTurnosDePaciente(req.params.id);
     res.send(turnos);
   });
 

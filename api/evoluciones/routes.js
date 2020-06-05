@@ -56,4 +56,19 @@ router.get('/paciente/:id_Paciente', async function(req,res,next){
   res.send(evols);
 });
 
+
+
+//Obtener evoluciones por id del paciente y fecha
+// router.get('/pacientefecha/:idpaciente/:_fecha', async function(req,res,next){
+
+//   var data = {
+//     id_Paciente: req.params.idpaciente, 
+//     fecha: req.params._fecha
+//   }
+
+//   let evols = await EvolucionesController.getEvolucionesDePacientePorFecha(data);
+//   res.send(evols);
+// });
+
+
 module.exports = router;

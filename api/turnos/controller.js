@@ -74,15 +74,15 @@ async function getTurnosDePaciente(pacienteId){
     return turnos;
 }
 
-//funcion de busqueda de turnos por fecha(dd-mm-yyyy), del correspondiente medico (id)
+//funcion de busqueda de turnos por fecha(dd-mm-yyyy) del correspondiente medico (id)
 async function getTurnosDelDia(dia){
 
-    const fechaE = dia.split("-");
+    const fechaMedico = dia.split("-");
 
-    const medicoId = fechaE[3];
+    const medicoId = fechaMedico[3];
 
-    let fechaInicioString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "00:00:00Z";
-    let fechaFinString = fechaE[2] + "-" + fechaE[1] + "-" + fechaE[0] + "T" + "23:59:59Z";
+    let fechaInicioString = fechaMedico[2] + "-" + fechaMedico[1] + "-" + fechaMedico[0] + "T" + "00:00:00Z";
+    let fechaFinString = fechaMedico[2] + "-" + fechaMedico[1] + "-" + fechaMedico[0] + "T" + "23:59:59Z";
 
     const fechaInicio = new Date(fechaInicioString);
     const fechaFin = new Date(fechaFinString);
