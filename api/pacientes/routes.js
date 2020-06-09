@@ -81,4 +81,10 @@ router.delete('/:id', async function(req,res){
   res.send(result);
 });
 
+//Obtener paciente por id del medico
+router.get('/medico/:id_medico', async function(req,res,next){
+  let pacientes = await PacientesController.getPacientePorMedico(req.params.id_medico);
+  res.send(pacientes);
+});
+
 module.exports = router;

@@ -72,4 +72,16 @@ async function deletePaciente(pacienteId){
 
 }
 
-module.exports = {getPacientes, getPaciente, pushPaciente, updatePaciente, deletePaciente};
+//devuelve un array con todos los pacientes que pertenecen a ese id medico
+async function getPacientePorMedico(id_medico){
+
+    const clientmongo = await connection.getConnection();
+    const pacientes = await clientmongo.db('MisPacientes')
+    .collection('Pacientes')
+    .find({idMedico:parseInt(id_medico)})
+    .toArray();
+
+    return pacientes;
+}
+
+module.exports = {getPacientes, getPaciente, pushPaciente, updatePaciente, deletePaciente, getPacientePorMedico};

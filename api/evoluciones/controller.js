@@ -75,32 +75,4 @@ async function getEvolucionesDePaciente(id_Paciente){
     return evoluciones;
 }
 
-//recibo los datos de la evolucion en formatoid paciente y  dd-mm-yyyy
-
-// async function getEvolucionesDePacientePorFecha(datos){
-
-//     const fechaS = datos.fecha.split("-");
-
-//     let fechaInicioString = fechaS[2] + "-" + fechaS[1] + "-" + fechaS[0] + "T" + "00:00:00Z";
-//     let fechaFinString = fechaS[2] + "-" + fechaS[1] + "-" + fechaS[0] + "T" + "23:59:59Z";
-
-//     const fechaInicio = new Date(fechaInicioString);
-//     const fechaFin = new Date(fechaFinString);
-
-//     const clientmongo = await connection.getConnection();
-//     const evoluciones = await clientmongo.db('MisPacientes')
-//     .collection('Turnos')
-//     .find({
-//         fecha:{$gte: fechaInicio, $lt: fechaFin},
-//         idPaciente:parseInt(datos.id_Paciente)
-//     })
-//     .toArray();
-
-//     return evoluciones;
-
-
-// }
-
-//getEvolucionesDePacientePorFecha , agregar en exports
-
 module.exports = {getEvoluciones, getEvolucion, pushEvolucion, updateEvolucion, deleteEvolucion, getEvolucionesDePaciente};
