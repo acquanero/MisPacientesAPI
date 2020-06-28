@@ -3,10 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
 
 var indexRouter = require('./api/index');
 
 var app = express();
+
+// enables cors for all requests. see https://expressjs.com/en/resources/middleware/cors.html
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
