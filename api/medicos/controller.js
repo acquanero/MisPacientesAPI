@@ -66,4 +66,33 @@ async function deleteMedico(medicoId){
 
 }
 
-module.exports = {getMedicos, getMedico, pushMedico, updateMedico, deleteMedico};
+//busqueda de la existencia del medico por mail y contraseña, devuelve el idMedico si existe (en formato String), de lo contrario devuelve none
+async function checkMedicExistence(mailpassword){
+
+    const arrayMailPass = mailpassword.split("-");
+
+    const Elmail = arrayMailPass[0];
+    const Elpassword = arrayMailPass[1];
+
+    const clientmongo = await connection.getConnection();
+    const medicos = await clientmongo.db('MisPacientes')
+    .collection('Medicos')
+    .find({
+        mail:Elmail,
+        password:Elpassword
+    })
+    .toArray();
+
+    let rta = 0;
+
+    if(medicos.length < 1){
+        rta = 'none'
+    }else{
+        rta = medicos[0].idMedico
+        rta = rta.toString();
+    }
+
+    return rta;
+}
+
+module.exports = {getMedicos, getMedico, pushMedico, updateMedico, deleteMedico, checkMedicExistence};

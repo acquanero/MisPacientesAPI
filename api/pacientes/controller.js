@@ -41,6 +41,7 @@ async function updatePaciente(paciente){
             idMedico: pacientey.idMedico,
             nombre: pacientey.nombre, 
             apellido: paciente.apellido,
+            dni: paciente.dni,
             fechaNacimiento: paciente.fechaNacimiento,
             obraSocial: pacientey.obraSocial,
             plan: paciente.plan,

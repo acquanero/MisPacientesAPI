@@ -41,6 +41,9 @@ devuelve todos los medicos
 GET /medicos/id
 devuelve el medico por id
 
+GET /medicos/checkexistence/mail-password
+devuelve el idMedico (en formato String) en caso de existir, de lo contrario devuelve none 
+
 POST
 /medicos/
 carga una medico

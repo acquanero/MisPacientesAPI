@@ -56,4 +56,10 @@ router.delete('/:id', async function(req,res){
   res.send(result);
 });
 
+//Chequea la existencia del medico y devuelve su id o -1 en caso de no estar. Se debe pasar la ruta como mail-password
+router.get('/checkexistence/:mailpassword', async function(req,res,next){
+  let elId = await MedicosController.checkMedicExistence(req.params.mailpassword);
+  res.send(elId);
+});
+
 module.exports = router;
