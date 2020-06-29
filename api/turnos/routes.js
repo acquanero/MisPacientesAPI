@@ -36,6 +36,7 @@ router.put('/:id', async function (req,res){
   
   let result = await TurnosController.updateTurno(
       {
+        _id: req.body._id,
         idMedico: req.body.idMedico, 
         idPaciente: req.body.idPaciente,
         fecha: new Date(req.body.fecha),

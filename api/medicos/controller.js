@@ -1,4 +1,5 @@
 const connection = require('../../conecction/dbconnection');
+const mongo = require('mongodb');
 
 async function getMedicos(){
 
@@ -16,7 +17,7 @@ async function getMedico(medicoId){
     const clientmongo = await connection.getConnection();
     const medico = await clientmongo.db('MisPacientes')
     .collection('Medicos')
-    .findOne({idMedico:parseInt(medicoId)});
+    .findOne({_id:new mongo.ObjectID(medicoId)});
 
     return medico;
 }
@@ -34,10 +35,10 @@ async function pushMedico(medico){
 async function updateMedico(medico){
 
     const clientmongo = await connection.getConnection();
-    const query = {idMedico:parseInt(medico.idMedico)};
+    const query = {_id:new mongo.ObjectID(medico._id)};
     const newValues = {$set: 
         {
-            idMedico:medico.idMedico,
+            _id: new mongo.ObjectID(medico._id),
             nombre: medico.nombre, 
             apellido: medico.apellido, 
             matricula: medico.matricula,
@@ -60,7 +61,7 @@ async function deleteMedico(medicoId){
 
     const result = await clientmongo.db('MisPacientes')
     .collection('Medicos')
-    .deleteOne({idMedico:parseInt(medicoId)});
+    .deleteOne({_id:new mongo.ObjectID(medicoId)});
 
     return result;
 
@@ -88,7 +89,7 @@ async function checkMedicExistence(mailpassword){
     if(medicos.length < 1){
         rta = 'none'
     }else{
-        rta = medicos[0].idMedico
+        rta = medicos[0]._id
         rta = rta.toString();
     }
 

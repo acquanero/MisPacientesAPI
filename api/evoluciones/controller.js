@@ -1,4 +1,5 @@
 const connection = require('../../conecction/dbconnection');
+const mongo = require('mongodb');
 
 async function getEvoluciones(){
 
@@ -16,7 +17,7 @@ async function getEvolucion(evolucionId){
     const clientmongo = await connection.getConnection();
     const evolucion = await clientmongo.db('MisPacientes')
     .collection('Evoluciones')
-    .findOne({_id:parseInt(evolucionId)});
+    .findOne({_id:new mongo.ObjectID(evolucionId)});
 
     return evolucion;
 }
@@ -34,9 +35,10 @@ async function pushEvolucion(evolucion){
 async function updateEvolucion(evolucion){
 
     const clientmongo = await connection.getConnection();
-    const query = {_id:parseInt(evolucion._id)};
+    const query = {_id:new mongo.ObjectID(evolucion._id)};
     const newValues = {$set: 
         {
+            _id: new mongo.ObjectID(evolucion._id),
             idMedico: evolucion.idMedico, 
             idPaciente: evolucion.idPaciente, 
             fecha: evolucion.fecha,
@@ -58,7 +60,7 @@ async function deleteEvolucion(evolucionId){
 
     const result = await clientmongo.db('MisPacientes')
     .collection('Evoluciones')
-    .deleteOne({_id:parseInt(evolucionId)});
+    .deleteOne({_id:new mongo.ObjectID(evolucionId)});
 
     return result;
 
@@ -69,7 +71,7 @@ async function getEvolucionesDePaciente(id_Paciente){
     const clientmongo = await connection.getConnection();
     const evoluciones = await clientmongo.db('MisPacientes')
     .collection('Evoluciones')
-    .find({idPaciente:parseInt(id_Paciente)})
+    .find({idPaciente:id_Paciente})
     .toArray();
 
     return evoluciones;

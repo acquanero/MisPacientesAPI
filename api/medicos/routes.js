@@ -11,7 +11,7 @@ router.get('/', async function(req,res,next){
 
 
 router.get('/:id', async function(req,res,next){
-  //res.send('Un inventor: ' + req.params.id);
+  //res.send('Un medico: ' + req.params.id);
   let medico = await MedicosController.getMedico(req.params.id);
   res.send(medico);
 });
@@ -20,7 +20,6 @@ router.post('/', async function(req,res){
 
   let result = await MedicosController.pushMedico(
       {
-          idMedico:req.body.idMedico,
           nombre: req.body.nombre, 
           apellido: req.body.apellido, 
           matricula: req.body.matricula,
@@ -37,7 +36,7 @@ router.put('/:id', async function (req,res){
   
   let result = await MedicosController.updateMedico(
       {
-        idMedico:req.body.idMedico,
+        _id: req.body._id,
         nombre: req.body.nombre, 
         apellido: req.body.apellido, 
         matricula: req.body.matricula,

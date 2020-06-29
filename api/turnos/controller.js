@@ -1,4 +1,5 @@
 const connection = require('../../conecction/dbconnection');
+const mongo = require('mongodb');
 
 async function getTurnos(){
 
@@ -16,7 +17,7 @@ async function getTurno(turnoId){
     const clientmongo = await connection.getConnection();
     const turno = await clientmongo.db('MisPacientes')
     .collection('Turnos')
-    .findOne({_id:parseInt(turnoId)});
+    .findOne({_id:new mongo.ObjectID(turnoId)});
 
     return turno;
 }
@@ -37,6 +38,7 @@ async function updateTurno(turno){
     const query = {_id:parseInt(turno._id)};
     const newValues = {$set: 
         {
+            _id: new mongo.ObjectID(turno._id),
             idMedico: turno.idMedico, 
             idPaciente: turno.idPaciente,
             fecha: turno.fecha,
@@ -57,7 +59,7 @@ async function deleteTurno(turnoId){
 
     const result = await clientmongo.db('MisPacientes')
     .collection('Turnos')
-    .deleteOne({_id:parseInt(turnoId)});
+    .deleteOne({_id:new mongo.ObjectID(turnoId)});
 
     return result;
 
@@ -68,7 +70,7 @@ async function getTurnosDePaciente(pacienteId){
     const clientmongo = await connection.getConnection();
     const turnos = await clientmongo.db('MisPacientes')
     .collection('Turnos')
-    .find({idPaciente:parseInt(pacienteId)})
+    .find({idPaciente:pacienteId})
     .toArray();
 
     return turnos;
@@ -92,7 +94,7 @@ async function getTurnosDelDia(dia){
     .collection('Turnos')
     .find({
         fecha:{$gte: fechaInicio, $lt: fechaFin},
-        idMedico:parseInt(medicoId)
+        idMedico:medicoId
     })
     .toArray();
 

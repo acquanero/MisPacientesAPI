@@ -1,4 +1,5 @@
 const connection = require('../../conecction/dbconnection');
+const mongo = require('mongodb');
 
 async function getPacientes(){
 
@@ -16,7 +17,7 @@ async function getPaciente(pacienteId){
     const clientmongo = await connection.getConnection();
     const paciente = await clientmongo.db('MisPacientes')
     .collection('Pacientes')
-    .findOne({idPaciente:parseInt(pacienteId)});
+    .findOne({_id:new mongo.ObjectID(pacienteId)});
 
     return paciente;
 }
@@ -37,7 +38,7 @@ async function updatePaciente(paciente){
     const query = {idPaciente:parseInt(paciente.idPaciente)};
     const newValues = {$set: 
         {
-            idPaciente: paciente.idPaciente,
+            _id: new mongo.ObjectID(paciente._id),
             idMedico: pacientey.idMedico,
             nombre: pacientey.nombre, 
             apellido: paciente.apellido,
@@ -67,7 +68,7 @@ async function deletePaciente(pacienteId){
 
     const result = await clientmongo.db('MisPacientes')
     .collection('Pacientes')
-    .deleteOne({idPaciente:parseInt(pacienteId)});
+    .deleteOne({_id:new mongo.ObjectID(pacienteId)});
 
     return result;
 
@@ -79,7 +80,7 @@ async function getPacientePorMedico(id_medico){
     const clientmongo = await connection.getConnection();
     const pacientes = await clientmongo.db('MisPacientes')
     .collection('Pacientes')
-    .find({idMedico:parseInt(id_medico)})
+    .find({idMedico:id_medico})
     .toArray();
 
     return pacientes;

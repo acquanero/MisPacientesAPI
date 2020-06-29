@@ -26,7 +26,6 @@ router.post('/', async function(req,res){
 
   let result = await PacientesController.pushPaciente(
       {
-          idPaciente: req.body.idPaciente,
           idMedico: req.body.idMedico,
           nombre: req.body.nombre, 
           apellido: req.body.apellido,
@@ -56,7 +55,7 @@ router.put('/:id', async function (req,res){
   
   let result = await PacientesController.updatePaciente(
       {
-        idPaciente: req.body.idPaciente,
+        _id: req.body.idPaciente,
         idMedico: req.body.idMedico,
         nombre: req.body.nombre, 
         apellido: req.body.apellido,
