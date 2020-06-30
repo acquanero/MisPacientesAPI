@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-//const uri = process.env.MONGODB
-const uri = "mongodb+srv://pablo:strangedays1984@cluster0-jc2di.mongodb.net/test";
+
+const uri = process.env.MONGODBKEY
+
 const chalk = require('chalk');
 
 const client = new MongoClient(uri, {useUnifiedTopology: true, useNewUrlParser: true})
