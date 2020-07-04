@@ -39,11 +39,7 @@ async function updateMedico(medico){
     const newValues = {$set: 
         {
             _id: new mongo.ObjectID(medico._id),
-            nombre: medico.nombre, 
-            apellido: medico.apellido, 
-            matricula: medico.matricula,
             mail: medico.mail,
-            usuario: medico.usuario,
             password: medico.password
         }
     };
