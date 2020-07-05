@@ -1,95 +1,135 @@
 const connection = require('../../conecction/dbconnection');
 const mongo = require('mongodb');
+const crypto = require('crypto');
 
-async function getMedicos(){
+const jwt = require('jsonwebtoken');
 
-    const clientmongo = await connection.getConnection();
-    const collection = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .find()
-    .toArray();
+const signToken = (_id) => {
+    return jwt.sign({_id}, process.env.JWT_SECRET, {
+        expiresIn: 60 * 60 * 24 * 365,
+    });
+};
 
-    return collection;
+async function getMedicos() {
+
+    const mongoClient = await connection.getConnection();
+    const medicosCollection = await mongoClient.db(connection.pacientesCollection)
+        .collection('Medicos')
+        .find()
+        .toArray();
+    await mongoClient.close();
+
+    return medicosCollection
 }
 
-async function getMedico(medicoId){
+async function getMedico(medicoId) {
 
-    const clientmongo = await connection.getConnection();
-    const medico = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .findOne({_id:new mongo.ObjectID(medicoId)});
+    const mongoClient = await connection.getConnection();
+    const medico = await mongoClient.db(connection.pacientesCollection)
+        .collection('Medicos')
+        .findOne({_id: new mongo.ObjectID(medicoId)});
 
-    return medico;
+    await mongoClient.close();
+
+    return medico
 }
 
-async function pushMedico(medico){
+async function pushMedico(medico) {
 
-    const clientmongo = await connection.getConnection();
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .insertOne(medico);
+    const mongoClient = await connection.getConnection();
+    const state = await mongoClient.db(connection.pacientesCollection)
+        .collection('Medicos')
+        .insertOne(medico);
+    await mongoClient.close();
 
-    return result;
+    return state
 }
 
-async function updateMedico(medico){
+async function updateMedico(medico) {
 
-    const clientmongo = await connection.getConnection();
-    const query = {_id:new mongo.ObjectID(medico._id)};
-    const newValues = {$set: 
-        {
-            _id: new mongo.ObjectID(medico._id),
-            mail: medico.mail,
-            password: medico.password
-        }
+    const mongoClient = await connection.getConnection();
+    const query = {_id: new mongo.ObjectID(medico._id)};
+    const newValues = {
+        $set:
+            {
+                _id: new mongo.ObjectID(medico._id),
+                mail: medico.mail,
+                password: medico.password
+            }
     };
 
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .updateOne(query, newValues);
+    const state = mongoClient.db(connection.pacientesCollection)
+        .collection('Medicos')
+        .updateOne(query, newValues);
+    await mongoClient.close();
 
-    return result;
+    return state
 }
 
-async function deleteMedico(medicoId){
+async function deleteMedico(medicoId) {
 
-    const clientmongo = await connection.getConnection();
+    const mongoClient = await connection.getConnection();
+    const state = mongoClient.db(connection.pacientesCollection)
+        .collection('Medicos')
+        .deleteOne({_id: new mongo.ObjectID(medicoId)});
+    await mongoClient.close();
 
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .deleteOne({_id:new mongo.ObjectID(medicoId)});
-
-    return result;
-
+    return state
 }
 
-//busqueda de la existencia del medico por mail y contraseña, devuelve el idMedico si existe (en formato String), de lo contrario devuelve none
-async function checkMedicExistence(mailpassword){
+async function register(mail, password) {
 
-    const arrayMailPass = mailpassword.split("-");
+    const mongoClient = await connection.getConnection();
+    const medicos = await mongoClient.db(connection.pacientesCollection);
+    let response = {
+        message: 'El usuario ya está registrado'
+    };
+    const randomKey = await crypto.randomBytes(16);
+    const newSalt = randomKey.toString('base64');
+    const encryptedPassword = crypto.pbkdf2Sync(password, newSalt, 10000, 64, 'sha1').toString('base64');
+    const registeredMail = await medicos.collection('Medicos').findOne({mail})
+    if (!registeredMail) {
+        medicos.collection('Medicos').insertOne({
+            mail,
+            password: encryptedPassword,
+            salt: newSalt,
+        });
+        response.message = 'Usuario registrado con éxito';
+    }
+    await mongoClient.close();
 
-    const Elmail = arrayMailPass[0];
-    const Elpassword = arrayMailPass[1];
+    return response
+}
 
-    const clientmongo = await connection.getConnection();
-    const medicos = await clientmongo.db('MisPacientes')
-    .collection('Medicos')
-    .find({
-        mail:Elmail,
-        password:Elpassword
-    })
-    .toArray();
+async function login(mail, password) {
 
-    let rta = 0;
+    const mongoClient = await connection.getConnection();
+    const medicos = await mongoClient.db(connection.pacientesCollection);
+    const medic = await medicos.collection('Medicos').findOne({mail});
+    if (!medic) {
+        console.log('Usuario y/o contraseña incorrectos');
+        return 'Usuario y/o contraseña incorrectos';
+    }
+    const response = await verifyCredentials(medic, password);
+    await mongoClient.close();
 
-    if(medicos.length < 1){
-        rta = 'none'
-    }else{
-        rta = medicos[0]._id
-        rta = rta.toString();
+    return response
+}
+
+function verifyCredentials(medic, password) {
+
+    let data = {
+        message: 'Usuario y/o contraseña incorrectos'
+    };
+    const encryptedPassword = crypto.pbkdf2Sync(password, medic.salt, 10000, 64, 'sha1').toString('base64');
+    if (medic.password === encryptedPassword) {
+        data = {
+            message: 'Usuario encontrado',
+            token: signToken(medic._id)
+        }
     }
 
-    return rta;
+    return data
 }
 
-module.exports = {getMedicos, getMedico, pushMedico, updateMedico, deleteMedico, checkMedicExistence};
+module.exports = {getMedicos, getMedico, pushMedico, updateMedico, deleteMedico, login, register};
