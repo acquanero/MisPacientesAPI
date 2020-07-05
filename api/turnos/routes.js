@@ -20,29 +20,29 @@ router.post('/', async function(req,res){
 
   let result = await TurnosController.pushTurno(
       {
-          idMedico: req.body.idMedico, 
+          idMedico: req.body.idMedico,
           idPaciente: req.body.idPaciente,
           fecha: new Date(req.body.fecha),
           //new Date(“<YYYY-mm-ddTHH:MM:ss>”) formato a ingresar
           motivoConsulta: req.body.motivoConsulta
       }
-  )
+  );
 
   res.send(result);
-})
+});
 
 //Actualizar turno
 router.put('/:id', async function (req,res){
-  
+
   let result = await TurnosController.updateTurno(
       {
         _id: req.body._id,
-        idMedico: req.body.idMedico, 
+        idMedico: req.body.idMedico,
         idPaciente: req.body.idPaciente,
         fecha: new Date(req.body.fecha),
         motivoConsulta: req.body.motivoConsulta
       }
-  )
+  );
 
   res.send(result);
 

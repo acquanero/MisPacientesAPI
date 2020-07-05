@@ -1,78 +1,85 @@
 const connection = require('../../conecction/dbconnection');
 const mongo = require('mongodb');
 
-async function getEvoluciones(){
+async function getEvoluciones() {
 
-    const clientmongo = await connection.getConnection();
-    const collection = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .find()
-    .toArray();
+    const mongoClient = await connection.getConnection();
+    const collection = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .find()
+        .toArray();
+    await mongoClient.close();
 
     return collection;
 }
 
-async function getEvolucion(evolucionId){
+async function getEvolucion(evolucionId) {
 
-    const clientmongo = await connection.getConnection();
-    const evolucion = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .findOne({_id:new mongo.ObjectID(evolucionId)});
+    const mongoClient = await connection.getConnection();
+    const evolucion = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .findOne({_id: new mongo.ObjectID(evolucionId)});
+    await mongoClient.close();
 
     return evolucion;
 }
 
-async function pushEvolucion(evolucion){
+async function pushEvolucion(evolucion) {
 
-    const clientmongo = await connection.getConnection();
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .insertOne(evolucion);
+    const mongoClient = await connection.getConnection();
+    const result = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .insertOne(evolucion);
+    await mongoClient.close();
 
     return result;
 }
 
-async function updateEvolucion(evolucion){
+async function updateEvolucion(evolucion) {
 
-    const clientmongo = await connection.getConnection();
-    const query = {_id:new mongo.ObjectID(evolucion._id)};
-    const newValues = {$set: 
-        {
-            _id: new mongo.ObjectID(evolucion._id),
-            idMedico: evolucion.idMedico, 
-            idPaciente: evolucion.idPaciente, 
-            fecha: evolucion.fecha,
-            motivoConsulta: evolucion.motivoConsulta,
-            descripcion: evolucion.descripcion
-        }
+    const mongoClient = await connection.getConnection();
+    const query = {_id: new mongo.ObjectID(evolucion._id)};
+    const newValues = {
+        $set:
+            {
+                _id: new mongo.ObjectID(evolucion._id),
+                idMedico: evolucion.idMedico,
+                idPaciente: evolucion.idPaciente,
+                fecha: evolucion.fecha,
+                motivoConsulta: evolucion.motivoConsulta,
+                descripcion: evolucion.descripcion
+            }
     };
 
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .updateOne(query, newValues);
+    const result = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .updateOne(query, newValues);
+    await mongoClient.close();
 
     return result;
 }
 
-async function deleteEvolucion(evolucionId){
+async function deleteEvolucion(evolucionId) {
 
-    const clientmongo = await connection.getConnection();
+    const mongoClient = await connection.getConnection();
+    const result = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .deleteOne({_id: new mongo.ObjectID(evolucionId)});
 
-    const result = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .deleteOne({_id:new mongo.ObjectID(evolucionId)});
+    await mongoClient.close();
 
     return result;
-
 }
 
-async function getEvolucionesDePaciente(id_Paciente){
+async function getEvolucionesDePaciente(id_Paciente) {
 
-    const clientmongo = await connection.getConnection();
-    const evoluciones = await clientmongo.db('MisPacientes')
-    .collection('Evoluciones')
-    .find({idPaciente:id_Paciente})
-    .toArray();
+    const mongoClient = await connection.getConnection();
+    const evoluciones = await mongoClient.db(connection.pacientesCollection)
+        .collection('Evoluciones')
+        .find({idPaciente: id_Paciente})
+        .toArray();
+
+    await mongoClient.close();
 
     return evoluciones;
 }
