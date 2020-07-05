@@ -80,12 +80,12 @@ async function deletePaciente(pacienteId) {
 }
 
 //devuelve un array con todos los pacientes que pertenecen a ese id medico
-async function getPacientePorMedico(id_medico) {
+async function getPacientePorMedico(idMedico) {
 
     const mongoClient = await connection.getConnection();
     const pacientes = await mongoClient.db(connection.pacientesCollection)
         .collection('Pacientes')
-        .find({idMedico: id_medico})
+        .find({idMedico: idMedico})
         .toArray();
     await mongoClient.close();
 
