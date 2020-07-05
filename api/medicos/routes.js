@@ -57,7 +57,6 @@ router.post('/login', async function (req, res) {
     const {mail, password} = req.body;
     let token = await MedicosController.login(mail, password);
 
-
     res.send(token);
 });
 

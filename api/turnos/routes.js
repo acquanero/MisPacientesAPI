@@ -61,8 +61,9 @@ router.get('/paciente/:id', isAuthenticated, async function (req, res, next) {
 });
 
 //Obtener todos los turnos de una fecha de un medico especifico (pasandole como string en formato dd-mm-yyyy-idMedico)
-router.get('/dia/:diamesanioIDmedico', isAuthenticated, async function (req, res, next) {
-    let turnos = await TurnosController.getTurnosDelDia(req.params.diamesanioIDmedico);
+router.get('/dia/:diamesanio', isAuthenticated, async function (req, res, next) {
+    const id = req.medico._id.toString();
+    let turnos = await TurnosController.getTurnosDelDia(id, req.params.diamesanio);
     res.send(turnos);
 });
 

@@ -85,7 +85,7 @@ router.delete('/:id', isAuthenticated, async function (req, res) {
 
 //Obtener paciente por id del medico
 router.get('/medico/by-id', isAuthenticated, async function (req, res, next) {
-    const id = req.medico._id;
+    const id = req.medico._id.toString();
     let pacientes = await PacientesController.getPacientePorMedico(id);
     res.send(pacientes);
 });
