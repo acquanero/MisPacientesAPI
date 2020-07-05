@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const isAuthenticated = require('../../auth');
 
 const EvolucionesController = require('./controller');
 
-router.get('/', async function (req, res, next) {
+router.get('/',isAuthenticated, async function (req, res, next) {
     let evoluciones = await EvolucionesController.getEvoluciones();
     res.send(evoluciones);
 });

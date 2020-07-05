@@ -1,16 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const isAuthenticated = require('../../auth');
 
 const MedicosController = require('./controller');
 
-router.get('/', async function (req, res, next) {
+router.get('/', isAuthenticated, async function (req, res, next) {
     //res.send('Listado de medicos');
     let medicos = await MedicosController.getMedicos();
     res.send(medicos);
 });
 
 
-router.get('/:id', async function (req, res, next) {
+router.get('/:id', isAuthenticated, async function (req, res, next) {
     //res.send('Un medico: ' + req.params.id);
     let medico = await MedicosController.getMedico(req.params.id);
     res.send(medico);
@@ -27,7 +28,7 @@ router.post('/', async function (req, res) {
     res.send(result);
 });
 
-router.put('/:id', async function (req, res) {
+router.put('/:id', isAuthenticated, async function (req, res) {
 
     let result = await MedicosController.updateMedico(
         {
@@ -39,7 +40,7 @@ router.put('/:id', async function (req, res) {
     res.send(result);
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', isAuthenticated, async function (req, res) {
     let result = await MedicosController.deleteMedico(req.params.id);
     res.send(result);
 });
@@ -55,6 +56,8 @@ router.post('/register', async function (req, res) {
 router.post('/login', async function (req, res) {
     const {mail, password} = req.body;
     let token = await MedicosController.login(mail, password);
+
+
     res.send(token);
 });
 
