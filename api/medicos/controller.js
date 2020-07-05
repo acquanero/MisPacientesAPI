@@ -1,7 +1,6 @@
 const connection = require('../../conecction/dbconnection');
 const mongo = require('mongodb');
 const crypto = require('crypto');
-
 const jwt = require('jsonwebtoken');
 
 const signToken = (_id) => {
