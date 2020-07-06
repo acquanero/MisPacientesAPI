@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
@@ -9,13 +8,9 @@ const app = express();
 
 // enables cors for all requests. see https://expressjs.com/en/resources/middleware/cors.html
 app.use(cors());
-
-// view engine setup
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 app.use('/api', indexRouter);
 
@@ -32,7 +27,7 @@ app.use((err, req, res) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ error: err.message });
 });
 
 module.exports = app;
