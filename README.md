@@ -108,3 +108,27 @@ Obtiene todos los turnos correspondientes a ese paciente por id
 GET
 /turnos/dia/dia-mes-anio-idmedico
 Devuelve todos los turnos de un determinado dia correspondiente a un determinado medico por id
+
+Rutas Antecedentes
+=================
+GET /antecedentes/
+devuelve todos los antecedentes
+
+GET /antecedentes/id
+devuelve el antecedente por id
+
+POST
+/antecedentes/
+carga un antecedente
+
+PUT
+/antecedentes/id
+actualiza un antecedente
+
+DELETE
+/antecedentes/id
+borra un antecedente
+
+GET
+/antecedentes/medico/id_medico
+Obtiene todos los antecedentes correspondientes a ese medico por id
