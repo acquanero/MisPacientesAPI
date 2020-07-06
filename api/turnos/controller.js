@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 async function getTurnos() {
 
     const mongoClient = await connection.getConnection();
-    const collection = await mongoClient.db('MisPacientes')
+    const collection = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .find()
         .toArray();
@@ -16,7 +16,7 @@ async function getTurnos() {
 async function getTurno(turnoId) {
 
     const mongoClient = await connection.getConnection();
-    const turno = await mongoClient.db('MisPacientes')
+    const turno = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .findOne({_id: new mongo.ObjectID(turnoId)});
     await mongoClient.close();
@@ -27,7 +27,7 @@ async function getTurno(turnoId) {
 async function pushTurno(turno) {
 
     const mongoClient = await connection.getConnection();
-    const result = await mongoClient.db('MisPacientes')
+    const result = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .insertOne(turno);
     await mongoClient.close();
@@ -49,7 +49,7 @@ async function updateTurno(turno) {
                 motivoConsulta: turno.motivoConsulta
             }
     };
-    const result = await mongoClient.db('MisPacientes')
+    const result = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .updateOne(query, newValues);
     await mongoClient.close();
@@ -71,7 +71,7 @@ async function deleteTurno(turnoId) {
 async function getTurnosDePaciente(pacienteId) {
 
     const mongoClient = await connection.getConnection();
-    const turnos = await mongoClient.db('MisPacientes')
+    const turnos = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .find({idPaciente: pacienteId})
         .toArray();
@@ -93,7 +93,7 @@ async function getTurnosDelDia(medicoId, dia) {
     const fechaFin = new Date(fechaFinString);
 
     const mongoClient = await connection.getConnection();
-    const turnos = await mongoClient.db('MisPacientes')
+    const turnos = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .find({
             fecha: {$gte: fechaInicio, $lt: fechaFin},
