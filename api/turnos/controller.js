@@ -60,7 +60,7 @@ async function updateTurno(turno) {
 async function deleteTurno(turnoId) {
 
     const mongoClient = await connection.getConnection();
-    const result = await mongoClient.db('MisPacientes')
+    const result = await mongoClient.db(connection.pacientesCollection)
         .collection('Turnos')
         .deleteOne({_id: new mongo.ObjectID(turnoId)});
     await mongoClient.close();
