@@ -7,9 +7,12 @@ module.exports = (req, res, next) => {
   if (!token) {
     return res.sendStatus(403);
   }
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (!decoded) {
+      return res.sendStatus(403);
+    }
     const { _id } = decoded;
-    connection.getConnection().then((mongoClient) => {
+    return connection.getConnection().then((mongoClient) => {
       mongoClient
         .db(connection.pacientesCollection)
         .collection('Medicos')
