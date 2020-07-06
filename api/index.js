@@ -16,7 +16,7 @@ router.use('/antecedentes', antecedentes);
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Mis Pacientes API' });
+  res.json({ title: 'Mis Pacientes API' });
 });
 
 module.exports = router;

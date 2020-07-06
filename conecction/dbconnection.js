@@ -5,12 +5,15 @@ const uri = process.env.MONGODBKEY;
 const pacientesCollection = 'MisPacientes';
 
 async function getConnection() {
-  return await new MongoClient(uri, {
+  if (!uri) {
+    console.error(chalk.red('ERROR: MONGODB URI is not provided'));
+  }
+  return new MongoClient(uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
     .connect()
-    .catch((err) => console.log(chalk.red(err)));
+    .catch((err) => console.error(chalk.red(err)));
 }
 
 module.exports = { getConnection, pacientesCollection };
