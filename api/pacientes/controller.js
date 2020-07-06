@@ -43,12 +43,12 @@ async function updatePaciente(paciente) {
         $set:
             {
                 _id: new mongo.ObjectID(paciente._id),
-                idMedico: pacientey.idMedico,
-                nombre: pacientey.nombre,
+                idMedico: paciente.idMedico,
+                nombre: paciente.nombre,
                 apellido: paciente.apellido,
                 dni: paciente.dni,
                 fechaNacimiento: paciente.fechaNacimiento,
-                obraSocial: pacientey.obraSocial,
+                obraSocial: paciente.obraSocial,
                 plan: paciente.plan,
                 numAfiliado: paciente.numAfiliado,
                 telefono: paciente.telefono,
