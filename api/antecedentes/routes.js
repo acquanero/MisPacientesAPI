@@ -41,15 +41,8 @@ router.delete('/:id', isAuthenticated, async function (req, res) {
 
 
 router.get('/medico/:id', isAuthenticated, async function (req, res, next) {
-    let Antecedentes = await AntecedentesController.getAntecedentesDePaciente(req.params.id);
-    res.send(Antecedentes);
-});
-
-//Obtener todos los Antecedentes de una fecha de un medico especifico (pasandole como string en formato dd-mm-yyyy-idMedico)
-router.get('/dia/:diamesanio', isAuthenticated, async function (req, res, next) {
-    const id = req.medico._id.toString();
-    let Antecedentes = await AntecedentesController.getAntecedentesDelDia(id, req.params.diamesanio);
-    res.send(Antecedentes);
+    let antecedentes = await AntecedentesController.getAntecedentesDeMedico(req.params.id);
+    res.send(antecedentes);
 });
 
 module.exports = router;
