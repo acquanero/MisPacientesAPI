@@ -17,7 +17,6 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const result = await EvolucionesController.pushEvolucion({
-    idMedico: req.body.idMedico,
     idPaciente: req.body.idPaciente,
     fecha: new Date(req.body.fecha),
     motivoConsulta: req.body.motivoConsulta,
@@ -30,7 +29,6 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const result = await EvolucionesController.updateEvolucion({
     _id: req.body._id,
-    idMedico: req.body.idMedico,
     idPaciente: req.body.idPaciente,
     fecha: new Date(req.body.fecha),
     motivoConsulta: req.body.motivoConsulta,

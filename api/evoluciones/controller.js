@@ -43,7 +43,6 @@ async function updateEvolucion(evolucion) {
   const newValues = {
     $set: {
       _id: new mongo.ObjectID(evolucion._id),
-      idMedico: evolucion.idMedico,
       idPaciente: evolucion.idPaciente,
       fecha: evolucion.fecha,
       motivoConsulta: evolucion.motivoConsulta,
