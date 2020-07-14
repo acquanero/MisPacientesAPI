@@ -18,8 +18,9 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 
 // Crear turno
 router.post('/', isAuthenticated, async (req, res) => {
+  const id = req.medico._id.toString();
   const result = await TurnosController.pushTurno({
-    idMedico: req.body.idMedico,
+    idMedico: id,
     NombrePaciente: req.body.NombrePaciente,
     TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),
@@ -32,9 +33,10 @@ router.post('/', isAuthenticated, async (req, res) => {
 
 // Actualizar turno
 router.put('/:id', isAuthenticated, async (req, res) => {
+  const id = req.medico._id.toString();
   const result = await TurnosController.updateTurno({
     _id: req.body._id,
-    idMedico: req.body.idMedico,
+    idMedico: id,
     NombrePaciente: req.body.NombrePaciente,
     TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),
