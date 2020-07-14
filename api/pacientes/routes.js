@@ -84,10 +84,5 @@ router.get('/medico/by-id', isAuthenticated, async (req, res) => {
   res.send(pacientes);
 });
 
-// Obtener paciente por id del medico - por Pablo - Sin encriptar
-router.get('/deunmedico/:id', isAuthenticated, async (req, res) => {
-  const pacientes = await PacientesController.getPacientePorMedico(req.params.id);
-  res.send(pacientes);
-});
 
 module.exports = router;
