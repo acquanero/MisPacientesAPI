@@ -51,7 +51,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { mail, password } = req.body;
   const token = await MedicosController.login(mail, password);
-
   res.send(token);
 });
 
