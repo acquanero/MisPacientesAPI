@@ -20,7 +20,9 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 router.post('/', isAuthenticated, async (req, res) => {
   const result = await TurnosController.pushTurno({
     idMedico: req.body.idMedico,
-    idPaciente: req.body.idPaciente,
+    ApellidoPaciente: req.body.ApellidoPaciente,
+    NombrePaciente: req.body.NombrePaciente,
+    TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),
     // new Date(“<YYYY-mm-ddTHH:MM:ss>”) formato a ingresar
     motivoConsulta: req.body.motivoConsulta,
@@ -34,7 +36,9 @@ router.put('/:id', isAuthenticated, async (req, res) => {
   const result = await TurnosController.updateTurno({
     _id: req.body._id,
     idMedico: req.body.idMedico,
-    idPaciente: req.body.idPaciente,
+    ApellidoPaciente: req.body.ApellidoPaciente,
+    NombrePaciente: req.body.NombrePaciente,
+    TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),
     motivoConsulta: req.body.motivoConsulta,
   });

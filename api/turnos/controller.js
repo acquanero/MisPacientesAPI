@@ -44,7 +44,9 @@ async function updateTurno(turno) {
     $set: {
       _id: new mongo.ObjectID(turno._id),
       idMedico: turno.idMedico,
-      idPaciente: turno.idPaciente,
+      ApellidoPaciente: turno.ApellidoPaciente,
+      NombrePaciente: turno.NombrePaciente,
+      TelefonoPaciente: turno.TelefonoPaciente,
       fecha: turno.fecha,
       motivoConsulta: turno.motivoConsulta,
     },
@@ -67,19 +69,6 @@ async function deleteTurno(turnoId) {
   await mongoClient.close();
 
   return result;
-}
-
-async function getTurnosDePaciente(pacienteId) {
-  const mongoClient = await connection.getConnection();
-  const turnos = await mongoClient
-    .db(connection.pacientesCollection)
-    .collection(COLLECTION_NAME)
-    .find({ idPaciente: pacienteId })
-    .toArray();
-
-  await mongoClient.close();
-
-  return turnos;
 }
 
 // Función de busqueda de turnos por fecha(dd-mm-yyyy) del correspondiente medico (id)
