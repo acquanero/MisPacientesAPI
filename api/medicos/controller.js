@@ -112,6 +112,7 @@ function verifyCredentials(medic, password) {
     data = {
       message: 'Usuario encontrado',
       token: signToken(medic._id),
+      idMedico: medic._id,
     };
   }
 
