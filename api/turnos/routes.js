@@ -20,7 +20,6 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 router.post('/', isAuthenticated, async (req, res) => {
   const result = await TurnosController.pushTurno({
     idMedico: req.body.idMedico,
-    ApellidoPaciente: req.body.ApellidoPaciente,
     NombrePaciente: req.body.NombrePaciente,
     TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),
@@ -36,7 +35,6 @@ router.put('/:id', isAuthenticated, async (req, res) => {
   const result = await TurnosController.updateTurno({
     _id: req.body._id,
     idMedico: req.body.idMedico,
-    ApellidoPaciente: req.body.ApellidoPaciente,
     NombrePaciente: req.body.NombrePaciente,
     TelefonoPaciente: req.body.TelefonoPaciente,
     fecha: new Date(req.body.fecha),

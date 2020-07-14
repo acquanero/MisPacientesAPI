@@ -44,7 +44,6 @@ async function updateTurno(turno) {
     $set: {
       _id: new mongo.ObjectID(turno._id),
       idMedico: turno.idMedico,
-      ApellidoPaciente: turno.ApellidoPaciente,
       NombrePaciente: turno.NombrePaciente,
       TelefonoPaciente: turno.TelefonoPaciente,
       fecha: turno.fecha,
@@ -102,6 +101,5 @@ module.exports = {
   pushTurno,
   updateTurno,
   deleteTurno,
-  getTurnosDePaciente,
   getTurnosDelDia,
 };
