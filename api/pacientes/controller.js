@@ -39,7 +39,7 @@ async function pushPaciente(paciente) {
 
 async function updatePaciente(paciente) {
   const mongoClient = await connection.getConnection();
-  const query = { idPaciente: parseInt(paciente.idPaciente, 10) }; // base 10 decimal
+  const query = { _id: new mongo.ObjectID(paciente._id) };
   const newValues = {
     $set: {
       _id: new mongo.ObjectID(paciente._id),
@@ -56,7 +56,7 @@ async function updatePaciente(paciente) {
       medicacionHabitual: paciente.medicacionHabitual,
       alergias: paciente.alergias,
       cirugias: paciente.cirugias,
-    },
+    }
   };
 
   const result = await mongoClient
