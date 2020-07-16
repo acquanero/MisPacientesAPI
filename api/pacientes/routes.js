@@ -57,7 +57,7 @@ router.put('/:id', isAuthenticated, async (req, res) => {
 
   const result = await PacientesController.updatePaciente({
     idMedico: id,
-    _id: req.body.idPaciente,
+    _id: req.body._id,
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     dni: req.body.dni,
