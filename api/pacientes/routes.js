@@ -19,6 +19,9 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 
 // Crear paciente
 router.post('/', isAuthenticated, async (req, res) => {
+
+  const id = req.medico._id.toString();
+
   // Convierto la fecha de string dd-mm-yyyy a formato Date de Mongo
 
   const birthday = req.body.fechaNacimiento.split('-');
@@ -26,7 +29,7 @@ router.post('/', isAuthenticated, async (req, res) => {
   const nacimientoDate = new Date(fechaString);
 
   const result = await PacientesController.pushPaciente({
-    idMedico: req.body.idMedico,
+    idMedico: id,
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     dni: req.body.dni,
@@ -46,6 +49,7 @@ router.post('/', isAuthenticated, async (req, res) => {
 
 // Actualizar paciente
 router.put('/:id', isAuthenticated, async (req, res) => {
+  const id = req.medico._id.toString();
   // Convierto la fecha de string dd-mm-yyyy a formato Date de Mongo
   const birthday = req.body.fechaNacimiento.split('-');
   const fechaString = `${birthday[2]}-${birthday[1]}-${birthday[0]}T00:00:00Z`;
@@ -53,7 +57,7 @@ router.put('/:id', isAuthenticated, async (req, res) => {
 
   const result = await PacientesController.updatePaciente({
     _id: req.body.idPaciente,
-    idMedico: req.body.idMedico,
+    idMedico: id,
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     dni: req.body.dni,
